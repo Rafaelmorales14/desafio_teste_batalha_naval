@@ -20,6 +20,8 @@ Em `src/jogo.js`, exporte as funções síncronas abaixo. Cada posição é um p
 - **BN04–BN05** verificam tiros na água, acertos e coordenadas inválidas.
 - **BN06** confirma que repetir um tiro não duplica o acerto. Acertar a segunda casa afunda o destroier.
 - **BN07** confirma que o 14º acerto distinto é o que encerra a partida com vitória.
+- **BN08** rejeita tipo desconhecido, casa repetida e coordenadas fracionárias.
+- **BN09** confirma que um navio maior só afunda no último acerto.
 
 ## Execução
 

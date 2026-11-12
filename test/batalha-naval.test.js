@@ -77,3 +77,23 @@ test('BN07 vitória só acontece ao acertar a última casa da frota', () => {
     expect(ultimo.resultado).toBe('vitoria');
     expect(ultimo.estado.tiros).toEqual(casasDaFrota);
 });
+
+test('BN08 rejeita tipo desconhecido, casa repetida no mesmo navio e coordenadas fracionárias', () => {
+    expect(() => criarTabuleiro([...frota.slice(0, 3), { tipo: 'fragata', casas: [[7, 9], [8, 9]] }])).toThrow(RangeError);
+    expect(() => criarTabuleiro(comDestroier([[7, 9], [7, 9]]))).toThrow(RangeError);
+    expect(() => criarTabuleiro(comDestroier([[7.5, 9], [8.5, 9]]))).toThrow(RangeError);
+    expect(() => atirar(tabuleiro(), [0.5, 0])).toThrow(RangeError);
+    expect(() => atirar(tabuleiro(), [0, 2.5])).toThrow(RangeError);
+});
+
+test('BN09 afunda um navio maior somente no último acerto de suas casas', () => {
+    let estado = tabuleiro();
+    for (const posicao of frota[0].casas.slice(0, -1)) {
+        const tiro = atirar(estado, posicao);
+        expect(tiro.resultado).toBe('acerto');
+        estado = tiro.estado;
+    }
+    const ultimo = atirar(estado, frota[0].casas.at(-1));
+    expect(ultimo.resultado).toBe('afundou');
+    expect(ultimo.estado.tiros).toEqual(frota[0].casas);
+});
